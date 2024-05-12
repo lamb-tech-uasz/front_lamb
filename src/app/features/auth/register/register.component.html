@@ -1,0 +1,42 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div id="main-wrapper">
+            <div class="row justify-content-center">
+                <div class="col-xl-10">
+                    <div class="card border-0">
+                        <div class="card-body p-0">
+                            <div class="row no-gutters">
+                                <div class="p-5">
+                                    <div class="mb-5">
+                                        <h3 class="h4 font-weight-bold text-primary">I N C R I P T I O N</h3>
+                                    </div>
+                                    <form [formGroup]="loginForm" class="row g-3" (ngSubmit)="submit()">
+                                        <div class="col-md-6" *ngFor="let _ctrl of formMaker">
+                                            <label>{{_ctrl.name}}</label>
+                                            <input class="form-control" [placeholder]="_ctrl.name"  *ngIf="_ctrl.type !== 'select'"
+                                                [formControlName]="_ctrl.key" [type]="_ctrl.type" required>
+                                            <select class="form-control" *ngIf="_ctrl.type === 'select'"
+                                                [formControlName]="_ctrl.key">
+                                                <option *ngFor="let opt of getOptions(_ctrl)" [value]="opt.value">
+                                                    {{opt.name}}</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <button (click)="getUserLocation()" class="btn btn-primary">Obtenir ma position</button>
+                                            <button type="submit" class="btn btn-primary">Inscription</button>
+                                        </div>
+                                    </form>
+                                    <hr />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <p class="text-muted text-center mt-3 mb-0">J'ai déjà un compte ? <a routerLink="/login"
+                            class="text-primary ml-1">Connexion</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
