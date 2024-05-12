@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { GetTokenService } from './utils/get-token.service';
 import { config } from '../config/config';
+import { AbstractService } from './abstract.service';
 
 
 @Injectable({
@@ -17,7 +18,7 @@ export class AuthService {
   email!: string
   i: number = 0
   isAdmin: boolean = false
-  constructor(private routes: Router, private http: HttpClient, private token: GetTokenService) {
+  constructor(private routes: Router, private http: HttpClient, private token: GetTokenService, private abstract: AbstractService) {
     this.getToken();
   }
   loginStatus$ = new BehaviorSubject(false);
@@ -65,8 +66,11 @@ export class AuthService {
       });
     });
   }
-
+  register(donnees: any) {
+    return this.abstract.envoi(`auth/inscrire`, donnees)
+  }
   deconnexion() {
+    console.log("deconnexion")
     this.isAuth = false;
     this.subjAuth.next(this.isAuth);
     localStorage.clear();

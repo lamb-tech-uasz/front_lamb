@@ -9,6 +9,8 @@ import { FormMaker, FormOptions } from 'src/app/shared/interfaces/form-maker';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
+
+  userLocation:any;
   loginForm = new FormGroup({
     prenom: new FormControl('', [Validators.required]),
     nom: new FormControl('', [Validators.required]),
@@ -62,4 +64,24 @@ export class RegisterComponent {
     }
     // this.authService.(data).subscribe(res => console.log(res))
   }
+
+
+  getUserLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.userLocation = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          };
+          console.log('User Location:', this.userLocation);
+        },
+        (error) => {
+          console.log('Error getting user location:', error);
+        }
+      );
+    } else {
+      console.log('Geolocation is not supported by this browser.');
+    }
+  }
 }

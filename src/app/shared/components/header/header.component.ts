@@ -6,6 +6,7 @@ import { GetTokenService } from 'src/app/core/services/utils/get-token.service';
 import { HttpClient } from '@angular/common/http';
 import { InformationPersonelleService } from 'src/app/core/services/utils/information-personelle.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { phoneNumberValidator } from '../../validators/phone';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +14,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
+  userLocation: any;
+
   isAuth: boolean = false;
   isLoading: boolean = false;
   erreur: boolean = false;
@@ -36,17 +39,19 @@ export class HeaderComponent {
     prenom: new FormControl('', [Validators.required]),
     nom: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.email]),
-    phone: new FormControl('', [Validators.required]),
+    phone: new FormControl('', [Validators.required, phoneNumberValidator(/(77|78|75|70|76)[0-9]{7}$/)]),
     password: new FormControl('', [Validators.required]),
+    confirmer: new FormControl('', [Validators.required]),
     type: new FormControl('', [Validators.required])
   });
 
-  registerFormMaker: FormMaker[] = [
+  registerFormMaker = [
     { name: 'Prénom', key: 'prenom', type: 'text', control: this.registerForm.get('prenom') as FormControl },
     { name: 'Nom', key: 'nom', type: 'text', control: this.registerForm.get('nom') as FormControl },
     { name: 'Adresse email', key: 'email', type: 'email', control: this.registerForm.get('email') as FormControl },
     { name: 'Numéro de téléphone', key: 'phone', type: 'text', control: this.registerForm.get('phone') as FormControl },
     { name: 'Mot de passe', key: 'password', type: 'password', control: this.registerForm.get('password') as FormControl },
+    { name: 'Confirmer mot de passe', key: 'confirmer', type: 'password', control: this.registerForm.get('confirmer') as FormControl },
     { name: 'Qui êtes-vous ? ', key: 'type', type: 'select', control: this.registerForm.get('type') as FormControl },
   ];
 
@@ -79,9 +84,9 @@ export class HeaderComponent {
         this.utilisateur = data
       })
       this.servicInfo.getInfo()
+      document.getElementById('fermer')!.click();
+      this.routes.navigateByUrl('/');
 
-        this.routes.navigate(['/']);
-    
       return;
     })
       .catch(err => {
@@ -92,7 +97,7 @@ export class HeaderComponent {
       });
   }
 
-  getOptions(ctrl: FormMaker): FormOptions[] {
+  getOptions(ctrl: any): FormOptions[] {
     if (ctrl.type === 'select') {
       if (ctrl.key === 'type') {
         return this.type
@@ -102,17 +107,61 @@ export class HeaderComponent {
   }
 
   submitRegister() {
-    console.log("sssss")
-    const formData = this.registerForm.value
-    console.log(formData)
-    let data = {
-      email: formData.email,
-      password: formData.email,
-      nom: formData.nom,
-      prenom: formData.prenom,
-      telephone: formData.phone,
-      type: formData.type
+    this.error = false
+    this.messages = ''
+    if (this.registerForm.valid) {
+      const formData = this.registerForm.value;
+      if (formData.password !== formData.confirmer) {
+        this.error = true
+        this.messages = "Mot de passe de confirmation est differente de la première."
+        return;
+      }
+      let data = {
+        email: formData.email,
+        password: formData.password,
+        nom: formData.nom,
+        prenom: formData.prenom,
+        telephone: formData.phone,
+        type: formData.type
+      };
+
+      this.getUserLocation().then((userLocation) => {
+        data = { ...data, ...userLocation };
+        console.log(data)
+        this.authService.register(data).subscribe(res => {
+          console.log(res)
+        });
+      }).catch((error) => {
+        console.log('Erreur lors de la récupération de la localisation :', error);
+        this.authService.register(data).subscribe(res => console.log(res));
+      });
     }
-    // this.authService.register(data).subscribe(res => console.log(res))
+
+  }
+
+  getUserLocation(): Promise<{ latitude: number, longitude: number }> {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const userLocation = {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude
+            };
+            resolve(userLocation);
+          },
+          (error) => {
+            console.log('Erreur lors de la récupération de la localisation :', error);
+            reject(error);
+          }
+        );
+      } else {
+        alert('Activer votre geolocalisation.');
+      }
+    });
+  }
+
+  seDeconnecter() {
+    this.authService.deconnexion()
   }
 }
