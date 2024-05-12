@@ -6,7 +6,9 @@ import { SharedModule } from '../shared/shared.module';
 import { RouterModule, Routes } from '@angular/router';
 import { FeaturesComponent } from './features.component';
 import { HomeComponent } from './home/home.component';
-
+import { ProductListComponent } from './products/product-list/product-list.component';
+import { MapsComponent } from './maps/maps.component';
+import { GoogleMapsModule } from '@angular/google-maps'
 
 const routes: Routes = [
   {
@@ -17,6 +19,10 @@ const routes: Routes = [
         path: '',
         component: HomeComponent,
       },
+      {
+        path:'products',
+        component: ProductListComponent
+      }
 
     ],
   }];
@@ -25,11 +31,14 @@ const routes: Routes = [
     LoginComponent,
     RegisterComponent,
     FeaturesComponent,
-    HomeComponent
+    HomeComponent,
+    ProductListComponent,
+    MapsComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
+    GoogleMapsModule,
     RouterModule.forChild(routes)
   ]
 })
