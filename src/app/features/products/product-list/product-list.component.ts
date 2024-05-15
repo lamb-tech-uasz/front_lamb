@@ -1,6 +1,7 @@
-import { Component } from "@angular/core";
-import { Router } from "@angular/router";
-import { ProductService } from "./../../../core/services/product.service";
+import { Component } from '@angular/core';
+import { Subject, first, lastValueFrom, takeUntil } from 'rxjs';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { ProductService } from 'src/app/core/services/product.service';
 
 @Component({
   selector: "app-product-list",
@@ -8,65 +9,29 @@ import { ProductService } from "./../../../core/services/product.service";
   styleUrls: ["./product-list.component.scss"],
 })
 export class ProductListComponent {
-  listProduct: any[];
-  selectedCategory: string = "";
-  filteredProducts: any[];
-  categories: string[] = [];
-  constructor(
-    private routes: Router,
-    private productService: ProductService // private route: ActivatedRoute, // private http: HttpClient,
-  ) {
-    this.listProduct = [];
-    this.filteredProducts = [];
-    // this.categories = this.getCategories();
-    console.log(this.categories);
-  }
+  isAuth: boolean = false;
+  products: any
+  destroy$ = new Subject();
+
+  constructor(private authService: AuthService, private productService:ProductService) { }
 
   ngOnInit(): void {
-    this.loadAllProduct();
-    this.filterProductsByCategory();
-    console.log(this.filterProductsByCategory());
+    this.isAuth = this.authService.isLoggedIn()
+    this.getProducts()
   }
 
-  // *ngFor="let produit of listProduct"
-  loadAllProduct() {
-    this.productService.getAllProducts().subscribe({
-      next: (value) => {
-        console.log(value);
-
-        this.setListProduc(value);
-        /* Rassembles les categories disponibles */
-        this.categories = Array.from(
-          new Set(this.listProduct.map((product) => product.categorie))
-        );
-        console.log(this.categories);
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
-  }
-  setListProduc(data: any[]) {
-    // this.listProduct = [];
-    this.listProduct = data;
-  }
-
-  filterProductsByCategory() {
-    if (this.selectedCategory === "") {
-      // Show all products if no category is selected
-      return this.listProduct;
-    } else {
-      // Filter products based on category
-      return this.listProduct.filter(
-        (produit) => produit.categorie == this.selectedCategory
+  async getProducts() {
+    try {
+      this.products = await lastValueFrom(
+        this.productService.getProducts()
+          .pipe(
+            takeUntil(this.destroy$),
+            first(),
+          )
       );
+    } catch (error) {
+      console.error(error)
+
     }
   }
-
-  trackByProduit() {
-    console.log(this.filterProductsByCategory());
-  }
-  // getImageProduct(id: any) {
-  //   return this.productService.getImage(id);
-  // }
 }

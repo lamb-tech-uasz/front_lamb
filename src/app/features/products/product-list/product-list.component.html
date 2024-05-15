@@ -1,20 +1,36 @@
-<!-- Section pour trier par catégorie -->
-<section class="category-filter mt-4 border-top">
-  <div class="container mt-5">
-    <div class="row">
-      <div class="col">
-        <h3>Trier par catégorie :</h3>
-        <!-- Sélection d'options par catégorie -->
-        <select class="form-control" [(ngModel)]="selectedCategory"
-          *ngIf="selectedCategory !== null"
-          (change)="trackByProduit()">
-          <option value>Toutes les catégories</option>
-          <option *ngFor="let category of categories" [value]="category">{{
-            category }}</option>
-        </select>
-      </div>
+<section class="product-list mt-4 border-top">
+    <div class="container mt-5">
+        <button class="btn btn-primary mb-2" routerLink="/mes-products" *ngIf="isAuth">Mes produits</button>
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-6 mb-3" *ngFor="let _p of products">
+                <div class="card">
+                    <img src="../../../../assets/img/logo.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{_p.nom}}</h5>
+                        <div class="rating">
+                            <span class="badge" [ngClass]="{
+                                'text-bg-success': _p.categorie === 'fruits',
+                                'text-bg-warning': _p.categorie === 'medicaments',
+                                'text-bg-danger': _p.categorie === 'legumes',
+                                'text-bg-info': _p.categorie === 'autres',
+                              }">{{ _p.categorie }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p class="card-text">P. U{{ _p.prixUnitaire + ' F cfa' }}</p>
+                            <p class="card-text">Qte {{ _p.quantite }}</p>
+                          </div>
+                        <a href="#" class="btn btn-primary mx-2">Acheter</a>
+                        <a class="btn btn-warning mx-2" >
+                            <i class="fas fa-shopping-cart"></i>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
     </div>
-  </div>
+  <!-- </div> -->
 </section>
 
 <section class="product-list mt-4 border-top">

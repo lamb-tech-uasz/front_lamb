@@ -19,7 +19,12 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent,
-  }
+  },
+  {
+    path: '',
+    loadChildren: () => import('./features/features.module')
+      .then(m => m.FeaturesModule),
+  },
 ];
 
 @NgModule({

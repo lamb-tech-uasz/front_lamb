@@ -27,6 +27,14 @@ export class AuthService {
     return this.loginStatus$.asObservable();
   }
 
+  getUserIdFromLocalStorage(): number | null {
+    const userString = localStorage.getItem('user');
+    if (userString) {
+      const user = JSON.parse(userString);
+      return user.id;
+    }
+    return null;
+  }
   private setStatus(stat: boolean) {
     this.loginStatus$.next(stat);
   }
@@ -47,14 +55,6 @@ export class AuthService {
     return this.subjAuth.asObservable();
   }
 
-  estSuper() {
-    const role = localStorage.getItem('roleuser')
-    if (role !== 'super' || role === null) {
-      return false
-    } else {
-      return true
-    }
-  }
   connexion(donnees: any) {
     return new Promise((resolve, reject) => {
       this.http.post(`${config.apiUrl}/auth/signin`, donnees).subscribe((user) => {
@@ -67,7 +67,7 @@ export class AuthService {
     });
   }
   register(donnees: any) {
-    return this.abstract.envoi(`auth/inscrire`, donnees)
+    return this.abstract.envoiL(`auth/inscrire`, donnees)
   }
   deconnexion() {
     console.log("deconnexion")
@@ -75,6 +75,6 @@ export class AuthService {
     this.subjAuth.next(this.isAuth);
     localStorage.clear();
     this.setStatus(false);
-    this.routes.navigate(['/']);
+    window.location.reload()
   }
 }
