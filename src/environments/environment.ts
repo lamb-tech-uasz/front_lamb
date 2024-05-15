@@ -10,5 +10,5 @@
 
 export const environment = {
   production: false,
-  apiUrl:'http://localhost:8080/api/v1/lamb-tech',
+  apiUrl:'http://192.168.203.95:8080/api/v1/lamb-tech',
 };
