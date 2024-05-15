@@ -20,6 +20,7 @@ export class HeaderComponent {
   isLoading: boolean = false;
   erreur: boolean = false;
   error: boolean = false
+  success: boolean = false
   messages: string = ""
 
   utilisateur: any
@@ -85,8 +86,7 @@ export class HeaderComponent {
       })
       this.servicInfo.getInfo()
       document.getElementById('fermer')!.click();
-      this.routes.navigateByUrl('/');
-
+      window.location.reload();
       return;
     })
       .catch(err => {
@@ -128,8 +128,14 @@ export class HeaderComponent {
       this.getUserLocation().then((userLocation) => {
         data = { ...data, ...userLocation };
         console.log(data)
-        this.authService.register(data).subscribe(res => {
-          console.log(res)
+        this.authService.register(data).subscribe((res: any) => {
+          if (res.error) {
+            this.error = true
+            this.messages = res.message
+          } else {
+            this.success = true
+            this.messages = res.message + " .Vous pouvez vous connecter maintenant."
+          }
         });
       }).catch((error) => {
         console.log('Erreur lors de la récupération de la localisation :', error);
@@ -139,14 +145,14 @@ export class HeaderComponent {
 
   }
 
-  getUserLocation(): Promise<{ latitude: number, longitude: number }> {
+  getUserLocation(): Promise<{ lat: number, lon: number }> {
     return new Promise((resolve, reject) => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
             const userLocation = {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude
+              lat: position.coords.latitude,
+              lon: position.coords.longitude
             };
             resolve(userLocation);
           },

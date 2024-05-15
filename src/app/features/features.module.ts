@@ -9,6 +9,7 @@ import { HomeComponent } from './home/home.component';
 import { ProductListComponent } from './products/product-list/product-list.component';
 import { MapsComponent } from './maps/maps.component';
 import { GoogleMapsModule } from '@angular/google-maps'
+import { MesProductsComponent } from './products/mes-products/mes-products.component';
 
 const routes: Routes = [
   {
@@ -20,8 +21,11 @@ const routes: Routes = [
         component: HomeComponent,
       },
       {
-        path:'products',
+        path: 'products',
         component: ProductListComponent
+      }, {
+        path: 'mes-products',
+        component: MesProductsComponent
       }
 
     ],
@@ -33,7 +37,8 @@ const routes: Routes = [
     FeaturesComponent,
     HomeComponent,
     ProductListComponent,
-    MapsComponent
+    MapsComponent,
+    MesProductsComponent
   ],
   imports: [
     CommonModule,

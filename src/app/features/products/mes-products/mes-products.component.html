@@ -1,0 +1,95 @@
+<div class="container-md mt-2">
+
+    <div class="mb-2">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">Nouveau
+            produit</button>
+    </div>
+    <div class="card">
+        <div class="alert" role="alert" [ngClass]="{'alert-danger': error, 'alert-success': success}"
+                    *ngIf="errorDelete || successDelete">
+                    {{ messageDelete }}
+                </div>
+        <div class="card-body">
+            <div *ngIf="products?.length===0">
+                <p class="card-text text-center">Vous n'avez pas de produits.</p>
+                
+            </div>
+            <table class="table" *ngIf="products?.length!==0">
+                <thead>
+                    <tr>
+                        <th scope="col">Photo</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Emballage</th>
+                        <th scope="col">Prix unitaire</th>
+                        <th scope="col">Quantité</th>
+                        <th scope="col">Date d'expiration</th>
+                        <th scope="col">Catégorie</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let _b of products">
+                        <th scope="row">
+                            <img width="80" height="50" src="../../../../assets/img/logo.png" />
+                        </th>
+                        <td>{{_b.nom}}</td>
+                        <td>{{_b.designation}}</td>
+                        <td>{{_b.prixUnitaire}}</td>
+                        <td>{{_b.quantite}}</td>
+                        <td>{{_b.dateExp}}</td>
+
+                        <td>
+                            <span class="badge" [ngClass]="{
+                              'text-bg-success': _b.categorie === 'fruits',
+                              'text-bg-warning': _b.categorie === 'medicaments',
+                              'text-bg-danger': _b.categorie === 'legumes',
+                              'text-bg-info': _b.categorie === 'autres',
+                            }">{{ _b.categorie }}</span>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger" (click)="supprimer(_b)">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="productModalLabel">Ajouter un nouveau produit</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert" role="alert" [ngClass]="{'alert-danger': error, 'alert-success': success}"
+                    *ngIf="error || success">
+                    {{ message }}
+                </div>
+                <form [formGroup]="productMaker" (ngSubmit)="onSubmit()" class="row g-3">
+                    <div class="col-6" *ngFor="let _ctrl of formMaker">
+                        <label for="inputAddress" class="form-label">{{_ctrl.name}}</label>
+                        <input [placeholder]="_ctrl.name" *ngIf="_ctrl.type !== 'select'" class="form-control"
+                            [formControlName]="_ctrl.key" [name]="_ctrl.key" [type]="_ctrl.type">
+                        <select class="form-control" *ngIf="_ctrl.type === 'select'" [formControlName]="_ctrl.key">
+                            <option value="" selected>-- Sélectionnez une option --</option>
+                            <option *ngFor="let opt of getOptions(_ctrl)" [value]="opt.value">{{opt.name}}</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        <button type="submit" [disabled]="productMaker.invalid" class="btn btn-primary">Ajouter</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

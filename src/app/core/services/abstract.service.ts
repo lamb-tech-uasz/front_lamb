@@ -16,6 +16,10 @@ export class AbstractService {
   }
 
   envoi<T>(lien: string, donnees: any): Observable<T> {
+    return this.http.post<T>(`${environment.apiUrl}/${lien}`, donnees,{ headers: headers } )
+      .pipe(catchError(this.handleError));
+  }
+  envoiL<T>(lien: string, donnees: any): Observable<T> {
     return this.http.post<T>(`${environment.apiUrl}/${lien}`, donnees)
       .pipe(catchError(this.handleError));
   }
