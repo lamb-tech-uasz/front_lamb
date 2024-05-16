@@ -1,130 +1,157 @@
 <header class="section-header">
-    <section class="top-bar bg-white text-white py-2">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-end">
-                    <span class="phone-number text-dark"> <b>Appeler (+221) 77 456 78 90</b></span>
-                </div>
-            </div>
+  <section class="top-bar bg-white text-white py-2">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 text-end">
+          <span class="phone-number text-dark"> <b>Appeler (+221) 77 456 78
+              90</b></span>
         </div>
-    </section>
-    <section class="header-main border-bottom mb-md-3">
-        <div class="container mb-2">
-            <div class="row align-items-center">
-                <div class="col-lg-1 col-md-1 col-sm-1 col-12">
-                    <img src="../../../assets/img/logo.png" width="80" height="50" alt="">
-                </div>
-                <div class="col-lg-5 col-md-5 col-sm-5 col-12">
-                    <form action="#" class="search d-none d-md-block">
-                        <div class="input-group w-100 mx-2">
-                            <input type="text" class="form-control" placeholder="Rechercher">
-                            <div class="input-group-append mx-2">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="col-lg-6 col-md-6 col-sm-6 col-12 text-end d-flex align-items-center justify-content-end">
-                    <a class="nav-link" routerLink="/mes-products">Rechercher</a>
-                    <button type="button" class="btn btn-primary text-white mx-2" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal" *ngIf="!isAuth">Connexion</button>
-                    <button type="button" class="btn btn-success text-white mx-2" data-bs-toggle="modal"
-                        data-bs-target="#InscriptionModal" *ngIf="!isAuth">Inscription</button>
-
-                    <a routerLink="/mon-panier" style="position: relative; float: right;" class="mx-2" *ngIf="isAuth">
-                        <i class="fas fa-shopping-cart fa-lg text-dark"></i>
-                        <span class="badge text-bg-danger  position-absolute top-0 start-100 translate-middle">9</span>
-                    </a>
-                    <div class="dropdown mx-2" style="float: right;" *ngIf="isAuth">
-                        <a class="dropdown-toggle no-arrow" href="#" role="button" id="userDropdown"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-user fa-lg text-dark"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" routerLink="/information">Mon profil</a></li>
-                            <li><a class="dropdown-item" routerLink="/information">Mes achats</a></li>
-                            <hr class="d-md-none">
-                            <li><a class="dropdown-item" (click)="seDeconnecter()">Déconnexion</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+      </div>
+    </div>
+  </section>
+  <section class="header-main border-bottom mb-md-3">
+    <div class="container mb-2">
+      <div class="row align-items-center">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-12">
+          <img src="../../../assets/img/logo.png" width="80" height="50" alt>
         </div>
-    </section>
+        <div class="col-lg-5 col-md-5 col-sm-5 col-12">
+          <!-- <form action="#" class="search d-none d-md-block"> -->
+            <div class="input-group w-100 mx-2">
+              <input type="text" class="form-control" placeholder="Rechercher">
+              <div class="input-group-append mx-2">
+                <!-- <a class="nav-link" routerLink="/mes-products">Rechercher</a> -->
+              </div>
+            </div>
+          <!-- </form> -->
+        </div>
+
+        <div
+          class="col-lg-6 col-md-6 col-sm-6 col-12 text-end d-flex align-items-center justify-content-end">
+          <!-- <div class="container mt-5"> -->
+            <button class="btn btn-primary mb-2" routerLink="/mes-products"
+              *ngIf="isAuth">Mes produits</button>
+
+          <!-- </div> -->
+
+
+          <button type="button" class="btn btn-primary text-white mx-2"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal" *ngIf="!isAuth">Connexion</button>
+          <button type="button" class="btn btn-success text-white mx-2"
+            data-bs-toggle="modal"
+            data-bs-target="#InscriptionModal"
+            *ngIf="!isAuth">Inscription</button>
+
+          <a routerLink="/mon-panier" style="position: relative; float: right;"
+            class="mx-2" *ngIf="isAuth">
+            <i class="fas fa-shopping-cart fa-lg text-dark"></i>
+            <span
+              class="badge text-bg-danger  position-absolute top-0 start-100 translate-middle">9</span>
+          </a>
+          <div class="dropdown mx-2" style="float: right;" *ngIf="isAuth">
+            <a class="dropdown-toggle no-arrow" href="#" role="button"
+              id="userDropdown"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-user fa-lg text-dark"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end"
+              aria-labelledby="userDropdown">
+              <li><a class="dropdown-item" routerLink="/information">Mon
+                  profil</a></li>
+              <li><a class="dropdown-item" routerLink="/information">Mes
+                  achats</a></li>
+              <hr class="d-md-none">
+              <li><a class="dropdown-item"
+                  (click)="seDeconnecter()">Déconnexion</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </header>
 
-
-
-
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="card border-0">
-                    <div class="card-body p-0">
-                        <h3 class="h4 font-weight-bold text-primary">C O N N E X I O N</h3>
-                        <form [formGroup]="loginForm" (ngSubmit)="submit()">
-                            <div class="form-group" *ngFor="let _ctrl of formMaker">
-                                <label>{{_ctrl.name}}</label>
-                                <input class="form-control" [placeholder]="_ctrl.name" [formControlName]="_ctrl.key"
-                                    [type]="_ctrl.type" required>
-                            </div>
-                            <div class="mt-2">
+<div class="modal fade" id="exampleModal" tabindex="-1"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="card border-0">
+          <div class="card-body p-0">
+            <h3 class="h4 font-weight-bold text-primary">C O N N E X I O N</h3>
+            <form [formGroup]="loginForm" (ngSubmit)="submit()">
+              <div class="form-group" *ngFor="let _ctrl of formMaker">
+                <label>{{_ctrl.name}}</label>
+                <input class="form-control" [placeholder]="_ctrl.name"
+                  [formControlName]="_ctrl.key"
+                  [type]="_ctrl.type" required>
+              </div>
+              <div class="mt-2">
 
-                                <button type="submit" class="btn btn-primary mx-2">Connexion</button>
-                                <button type="button" class="btn btn-secondary mr-2" id="fermer"
-                                    data-dismiss="modal">fermer</button>
-                            </div>
-                        </form>
+                <button type="submit"
+                  class="btn btn-primary mx-2">Connexion</button>
+                <button type="button" class="btn btn-secondary mr-2" id="fermer"
+                  data-dismiss="modal">fermer</button>
+              </div>
+            </form>
 
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
+<div class="modal fade" id="InscriptionModal" tabindex="-1"
+  aria-labelledby="InscriptionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="card border-0">
+          <div class="card-body p-0">
 
-<div class="modal fade" id="InscriptionModal" tabindex="-1" aria-labelledby="InscriptionModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h3 class="h4 font-weight-bold text-primary">I N S C R I P T I O
+              N</h3>
+            <div class="alert" role="alert"
+              [ngClass]="{'alert-danger': error, 'alert-success': success}"
+              *ngIf="error || success">
+              {{ messages }}
             </div>
-            <div class="modal-body">
-                <div class="card border-0">
-                    <div class="card-body p-0">
+            <form [formGroup]="registerForm" class="row g-3"
+              (ngSubmit)="submitRegister()">
+              <div class="col-md-6" *ngFor="let _ctrl of registerFormMaker">
+                <label>{{_ctrl.name}}</label>
+                <input class="form-control" [placeholder]="_ctrl.name"
+                  *ngIf="_ctrl.type !== 'select'"
+                  [formControlName]="_ctrl.key!" [type]="_ctrl.type" required>
+                <select class="form-control" *ngIf="_ctrl.type === 'select'"
+                  [formControlName]="_ctrl.key!">
+                  <option *ngFor="let opt of getOptions(_ctrl)"
+                    [value]="opt.value">
+                    {{opt.name}}</option>
+                </select>
+              </div>
 
-                        <h3 class="h4 font-weight-bold text-primary">I N S C R I P T I O N</h3>
-                        <div class="alert" role="alert" [ngClass]="{'alert-danger': error, 'alert-success': success}"
-                            *ngIf="error || success">
-                            {{ messages }}
-                        </div>
-                        <form [formGroup]="registerForm" class="row g-3" (ngSubmit)="submitRegister()">
-                            <div class="col-md-6" *ngFor="let _ctrl of registerFormMaker">
-                                <label>{{_ctrl.name}}</label>
-                                <input class="form-control" [placeholder]="_ctrl.name" *ngIf="_ctrl.type !== 'select'"
-                                    [formControlName]="_ctrl.key!" [type]="_ctrl.type" required>
-                                <select class="form-control" *ngIf="_ctrl.type === 'select'"
-                                    [formControlName]="_ctrl.key!">
-                                    <option *ngFor="let opt of getOptions(_ctrl)" [value]="opt.value">
-                                        {{opt.name}}</option>
-                                </select>
-                            </div>
+              <div class="col-12">
 
-                            <div class="col-12">
+                <button type="submit"
+                  class="btn btn-primary">Inscription</button>
+              </div>
+            </form>
 
-                                <button type="submit" class="btn btn-primary">Inscription</button>
-                            </div>
-                        </form>
-
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>

@@ -1,36 +1,19 @@
-<section class="product-list mt-4 border-top">
-    <div class="container mt-5">
-        <button class="btn btn-primary mb-2" routerLink="/mes-products" *ngIf="isAuth">Mes produits</button>
-        <div class="row">
-            <div class="col-lg-3 col-md-4 col-6 mb-3" *ngFor="let _p of products">
-                <div class="card">
-                    <img src="../../../../assets/img/logo.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">{{_p.nom}}</h5>
-                        <div class="rating">
-                            <span class="badge" [ngClass]="{
-                                'text-bg-success': _p.categorie === 'fruits',
-                                'text-bg-warning': _p.categorie === 'medicaments',
-                                'text-bg-danger': _p.categorie === 'legumes',
-                                'text-bg-info': _p.categorie === 'autres',
-                              }">{{ _p.categorie }}</span>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <p class="card-text">P. U{{ _p.prixUnitaire + ' F cfa' }}</p>
-                            <p class="card-text">Qte {{ _p.quantite }}</p>
-                          </div>
-                        <a href="#" class="btn btn-primary mx-2">Acheter</a>
-                        <a class="btn btn-warning mx-2" >
-                            <i class="fas fa-shopping-cart"></i>
-                        </a>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
+<!-- Section pour trier par catégorie -->
+<section class="category-filter mt-4 border-top">
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col">
+        <h3>Trier par catégorie :</h3>
+        <!-- Sélection d'options par catégorie -->
+        <select class="form-control" [(ngModel)]="selectedCategory"
+          *ngIf="selectedCategory !== null">
+          <option value>Toutes les catégories</option>
+          <option *ngFor="let category of categories" [value]="category">{{
+            category }}</option>
+        </select>
+      </div>
     </div>
-  <!-- </div> -->
+  </div>
 </section>
 
 <section class="product-list mt-4 border-top">
@@ -51,15 +34,36 @@
           </ng-template>
           <div class="card-body">
             <h5 class="card-title">{{produit.nom}}</h5>
+            <!-- <div class="rating"> -->
+            <span class="badge" [ngClass]="{
+                                'text-bg-success': produit.categorie === 'fruits',
+                                'text-bg-warning': produit.categorie === 'medicaments',
+                                'text-bg-danger': produit.categorie === 'legumes',
+                                'text-bg-info': produit.categorie === 'autres',
+                              }">{{ produit.categorie }}</span>
+            <!-- </div> -->
+
             <div class="rating">
               <i class="fas fa-star warning"
                 *ngFor="let star of [1, 2, 3, 4, 5]"></i>
             </div>
             <s class="card-text">{{produit.prixUnitaire}} franc</s>
-            <p class="card-text">{{produit.specialPrice}} franc</p>
-            <span class="card-text">date de péremption
-              <a class="btn btn-danger mx-2">{{produit.dateExp}}</a></span>
-            <p class="card-text">Je suis un produit</p>
+            <!-- <p class="card-text">{{produit.specialPrice}} franc</p> -->
+            <div class="d-flex justify-content-between">
+              <p class="card-text">P. U: {{ produit.specialPrice + ' F cfa'
+                }}</p>
+              <p class="card-text">Qte {{ produit.quantite }}</p>
+            </div>
+            <!-- *************** -->
+            <div class="d-flex justify-content-between">
+              <p class="card-text">Péremption <span
+                  class="btn btn-danger mx-2">{{' '+ produit.dateExp
+                  }}</span></p>
+              <!-- <p class="card-text">Qte {{ _p.quantite }}</p> -->
+            </div>
+            <!-- *************** -->
+
+            <br>
             <a href="#" class="btn btn-primary mx-2">Acheter</a>
             <a class="btn btn-warning mx-2">
               <i class="fas fa-shopping-cart"></i>
