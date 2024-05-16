@@ -1,29 +1,32 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, first, of, retry, tap } from 'rxjs';
-import { config, headers } from '../config/config';
-import { AbstractService } from './abstract.service';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable, catchError, first, of, retry, tap } from "rxjs";
+import { config, headers } from "../config/config";
+import { AbstractService } from "./abstract.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class ProductService {
-
-  constructor(private http: HttpClient, private abstract: AbstractService) { }
+  constructor(private http: HttpClient, private abstract: AbstractService) {}
 
   getAllProducts(): Observable<any[]> {
-    return this.http.get<any[]>(`${config.apiUrl}/produits/find-by-user`, {headers:headers}).pipe(
-      tap(produits => console.log(produits)),
-      first(),
-      retry(3),
-      catchError((error) => {
-        return of([]);
+    return this.http
+      .get<any[]>(`${config.apiUrl}/produits/find-by-user`, {
+        headers: headers,
       })
-    );
+      .pipe(
+        tap((produits) => console.log(produits)),
+        first(),
+        retry(3),
+        catchError((error) => {
+          return of([]);
+        })
+      );
   }
   getProducts(): Observable<any[]> {
     return this.http.get<any[]>(`${config.apiUrl}/produits/not-auth/all`).pipe(
-      tap(produits => console.log(produits)),
+      tap((produits) => console.log(produits)),
       first(),
       retry(3),
       catchError((error) => {
@@ -32,10 +35,14 @@ export class ProductService {
     );
   }
   postProducts(data: any) {
-    return this.abstract.envoi(`produits/create`, data)
+    return this.abstract.envoi(`produits/create`, data);
   }
 
   deleteProduct(id: number) {
-    return this.abstract.supprimer(`produits/${id}`)
+    // return this.abstract.supprimer(`produits/${id}`)
+
+    return this.http.delete(`${config.apiUrl}/produits/${id}`, {
+      headers: headers,
+    });
   }
 }
