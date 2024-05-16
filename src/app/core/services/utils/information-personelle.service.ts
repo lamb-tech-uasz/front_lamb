@@ -29,23 +29,24 @@ export class InformationPersonelleService {
 
   async addUser(user: any) {
     const { token, userConnect } = user;
-  
-    const { prenom, nom, email, telephone, authorities } = userConnect;
-  
-  
+
+    const { prenom, nom, email, telephone, type,authorities } = userConnect;
+
+
     const utilisateur = {
-      nom: `${prenom} ${nom}`,
+      nom: `${nom}`,
       prenom,
       name: nom,
       email,
       telephone,
+      type,
 
     };
-  
-  
+
+
     localStorage.setItem('807605274673228623802113__plateforme-bull-yakk-token', token);
-    localStorage.setItem('user', JSON.stringify(utilisateur));  
+    localStorage.setItem('user', JSON.stringify(utilisateur));
     this.getInfo();
   }
-  
+
 }

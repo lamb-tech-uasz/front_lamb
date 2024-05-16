@@ -17,20 +17,28 @@
         </div>
         <div class="col-lg-5 col-md-5 col-sm-5 col-12">
           <!-- <form action="#" class="search d-none d-md-block"> -->
-          <div class="input-group w-100 mx-2">
-            <input type="text" class="form-control" placeholder="Rechercher">
-            <div class="input-group-append mx-2">
-              <!-- <a class="nav-link" routerLink="/mes-products">Rechercher</a> -->
-            </div>
-          </div>
+         <div class="input-group w-100 mx-2">
+  <input type="text" class="form-control" placeholder="Rechercher" (input)="updateSearchQuery($event)">
+  <div class="input-group-append mx-2">
+    <!-- <a class="nav-link" routerLink="/mes-products">Rechercher</a> -->
+  </div>
+</div>
+
+          <!-- </div> -->
           <!-- </form> -->
         </div>
 
         <div
           class="col-lg-6 col-md-6 col-sm-6 col-12 text-end d-flex align-items-center justify-content-end">
           <!-- <div class="container mt-5"> -->
+
+
           <button class="btn btn-primary mb-2" routerLink="/mes-products"
-            *ngIf="isAuth">Mes produits</button>
+            *ngIf="isAuth && (getInfoOnUser().type === 'societe' || getInfoOnUser().type === 'particulier')">Mes
+            produits</button>
+          <!-- <p>
+            {{getInfoOnUser().type}}
+          </p> -->
 
           <!-- </div> -->
 

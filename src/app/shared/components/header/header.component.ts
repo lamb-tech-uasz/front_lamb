@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PanierService } from "src/app/core/panier.service";
 import { AuthService } from "src/app/core/services/auth.service";
+import { SearchService } from "src/app/core/services/search.service";
 import { GetTokenService } from "src/app/core/services/utils/get-token.service";
 import { InformationPersonelleService } from "src/app/core/services/utils/information-personelle.service";
 import { FormMaker, FormOptions } from "../../interfaces/form-maker";
@@ -121,11 +122,17 @@ export class HeaderComponent {
     private http: HttpClient,
     private servicInfo: InformationPersonelleService,
     private serveToken: GetTokenService,
-    private panierService: PanierService
+    private panierService: PanierService,
+    private searchService: SearchService
   ) {}
 
   ngOnInit(): void {
     this.isAuth = this.authService.isLoggedIn();
+  }
+  updateSearchQuery(event: Event): void {
+    const query = (event.target as HTMLInputElement).value;
+    this.searchService.updateSearchQuery(query);
+    console.log(query);
   }
 
   submit() {
@@ -237,5 +244,10 @@ export class HeaderComponent {
 
   getNombreArticlePanier() {
     return this.panierService.getNombreArtcle();
+  }
+  getInfoOnUser() {
+    const userString = localStorage.getItem("user");
+    const user = userString ? JSON.parse(userString) : null;
+    return user;
   }
 }

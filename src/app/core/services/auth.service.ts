@@ -81,7 +81,9 @@ export class AuthService {
     this.subjAuth.next(this.isAuth);
     localStorage.clear();
     this.setStatus(false);
-this.routes.navigateByUrl('/');
     // window.location.reload();
+    // this.routes.navigate("/");
+    this.routes.navigateByUrl("/");
+    this.routes.navigateByUrl("/");
   }
 }
