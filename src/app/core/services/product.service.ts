@@ -35,7 +35,8 @@ export class ProductService {
     );
   }
   postProducts(data: any) {
-    return this.abstract.envoi(`produits/create`, data);
+    return this.abstract.envoi(`produits`, data);
+    // return this.abstract.envoi(`produits/create`, data);
   }
 
   deleteProduct(id: number) {

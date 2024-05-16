@@ -17,23 +17,22 @@
         </div>
         <div class="col-lg-5 col-md-5 col-sm-5 col-12">
           <!-- <form action="#" class="search d-none d-md-block"> -->
-            <div class="input-group w-100 mx-2">
-              <input type="text" class="form-control" placeholder="Rechercher">
-              <div class="input-group-append mx-2">
-                <!-- <a class="nav-link" routerLink="/mes-products">Rechercher</a> -->
-              </div>
+          <div class="input-group w-100 mx-2">
+            <input type="text" class="form-control" placeholder="Rechercher">
+            <div class="input-group-append mx-2">
+              <!-- <a class="nav-link" routerLink="/mes-products">Rechercher</a> -->
             </div>
+          </div>
           <!-- </form> -->
         </div>
 
         <div
           class="col-lg-6 col-md-6 col-sm-6 col-12 text-end d-flex align-items-center justify-content-end">
           <!-- <div class="container mt-5"> -->
-            <button class="btn btn-primary mb-2" routerLink="/mes-products"
-              *ngIf="isAuth">Mes produits</button>
+          <button class="btn btn-primary mb-2" routerLink="/mes-products"
+            *ngIf="isAuth">Mes produits</button>
 
           <!-- </div> -->
-
 
           <button type="button" class="btn btn-primary text-white mx-2"
             data-bs-toggle="modal"
@@ -47,7 +46,7 @@
             class="mx-2" *ngIf="isAuth">
             <i class="fas fa-shopping-cart fa-lg text-dark"></i>
             <span
-              class="badge text-bg-danger  position-absolute top-0 start-100 translate-middle">9</span>
+              class="badge text-bg-danger  position-absolute top-0 start-100 translate-middle">{{getNombreArticlePanier()}}</span>
           </a>
           <div class="dropdown mx-2" style="float: right;" *ngIf="isAuth">
             <a class="dropdown-toggle no-arrow" href="#" role="button"

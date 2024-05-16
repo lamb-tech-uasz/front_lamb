@@ -9,6 +9,7 @@ import { FeaturesComponent } from "./features.component";
 import { HomeComponent } from "./home/home.component";
 import { MapsComponent } from "./maps/maps.component";
 import { MesProductsComponent } from "./products/mes-products/mes-products.component";
+import { PanierComponent } from "./products/panier/panier.component";
 import { ProductListComponent } from "./products/product-list/product-list.component";
 
 const routes: Routes = [
@@ -28,6 +29,10 @@ const routes: Routes = [
         path: "mes-products",
         component: MesProductsComponent,
       },
+      {
+        path: "mon-panier",
+        component: PanierComponent,
+      },
     ],
   },
 ];
@@ -38,6 +43,7 @@ const routes: Routes = [
     FeaturesComponent,
     HomeComponent,
     ProductListComponent,
+    PanierComponent,
     MapsComponent,
     MesProductsComponent,
   ],

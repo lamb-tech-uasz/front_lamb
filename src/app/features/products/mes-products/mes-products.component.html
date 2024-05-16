@@ -1,6 +1,9 @@
+  <button class="btn btn-danger mb-2 text-center" routerLink="/">Retourner aux
+    produits</button>
+
 <div class="container-md mt-2">
 
-  <div class="mb-2">
+  <div class="mb-2 text-center">
     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
       data-bs-target="#productModal">Nouveau
       produit</button>
@@ -23,6 +26,7 @@
             <th scope="col">Nom</th>
             <th scope="col">Emballage</th>
             <th scope="col">Prix unitaire</th>
+            <th scope="col">Prix Special</th>
             <th scope="col">Quantité</th>
             <th scope="col">Date d'expiration</th>
             <th scope="col">Catégorie</th>
@@ -32,12 +36,20 @@
         <tbody>
           <tr *ngFor="let _b of products">
             <th scope="row">
-              <img width="80" height="50"
+              <img *ngIf="_b.photo==null ;else elseBlock" width="80" height="50"
                 src="../../../../assets/img/logo.png" />
+              <ng-template #elseBlock>
+                <img width="80" height="50"
+                  [src]="'http://localhost:8080/api/v1/lamb-tech/produits/' + _b.id + '/photo'"
+                  class="card-img-top"
+                  alt="...">
+              </ng-template>
+
             </th>
             <td>{{_b.nom}}</td>
             <td>{{_b.designation}}</td>
             <td>{{_b.prixUnitaire}}</td>
+            <td>{{_b.specialPrice}}</td>
             <td>{{_b.quantite}}</td>
             <td>{{_b.dateExp}}</td>
 
@@ -97,6 +109,20 @@
                 [value]="opt.value">{{opt.name}}</option>
             </select>
           </div>
+          <!-- Test -->
+          <div class="mb-3">
+            <label for="imageUpload" class="form-label">Sélectionner une
+              image</label>
+            <input type="file" class="form-control" id="imageUpload"
+              (change)="onFileSelected($event)"
+              formControlName="file"
+              accept="image/*">
+          </div>
+          <!-- Test -->
+
+          <img *ngIf="imageBase64" [src]="imageBase64"
+            [style.width.%]=20 alt="Uploaded Image">
+
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary"
               data-bs-dismiss="modal">Fermer</button>

@@ -1,0 +1,75 @@
+<div *ngIf="cartItems.length > 0; else emptyCart">
+  <button class="btn btn-primary mb-2" routerLink="/"
+    *ngIf="isAuth">Retourner aux produits</button>
+
+  <table class="table" *ngIf="cartItems.length>0">
+
+    <thead>
+      <tr>
+        <th scope="col">Photo</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Emballage</th>
+        <th scope="col">Prix unitaire</th>
+        <!-- <th scope="col">Prix Special</th> -->
+        <th scope="col">Date d'expiration</th>
+        <th scope="col">Quantité</th>
+        <th scope="col">Prix</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let _b of cartItems">
+        <th scope="row">
+          <img *ngIf="_b.photo==null ;else elseBlock" width="80" height="50"
+            src="../../../../assets/img/logo.png" />
+          <ng-template #elseBlock>
+            <img width="80" height="50"
+              [src]="'http://localhost:8080/api/v1/lamb-tech/produits/' + _b.id + '/photo'"
+              class="card-img-top"
+              alt="...">
+          </ng-template>
+
+        </th>
+        <td>{{_b.produit.nom}}</td>
+        <td>{{_b.produit.designation}}</td>
+        <!-- <td>{{_b.produit.prixUnitaire}}</td> -->
+        <td>{{_b.produit.specialPrice}}</td>
+        <td>{{_b.produit.dateExp}}</td>
+        <td>{{_b.quantite}}</td>
+        <td>{{_b.produit.specialPrice*_b.quantite}}</td>
+
+        <td>
+          <button type="button" class="btn btn-success mx-2"
+          (click)="addQuantiteCart(_b.produit.id)"
+          >
+            <i class="fas fa-plus"></i>
+          </button>
+
+          <button type="button" class="btn btn-primary x-2" (click)="diminuerQuantiteCart(_b.produit.id)">
+            <i class="fas fa-minus"></i>
+          </button>
+          <button type="button" class="btn btn-danger"
+            (click)="removeItemFromCart(_b.produit.id)">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="btn btn-warning mb-2">Total: {{ totalAmount }}</p>
+  <br><br><br>
+  <button class="btn btn-danger mb-2" (click)="viderPanier()">Vider le
+    Panier</button>
+  <br><br><br><br><br><br>
+</div>
+<ng-template #emptyCart>
+  <button class="btn btn-primary mb-2" routerLink="/"
+    *ngIf="isAuth">Retourner aux produits</button>
+
+  <br>
+  <img src="../../../../assets/img/paniervide.png">
+
+  <h1 style="text-align: center;">Le panier est vide .</h1>
+  <br><br><br>
+</ng-template>

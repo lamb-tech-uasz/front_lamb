@@ -15,7 +15,7 @@ export class MesProductsComponent implements OnInit {
   @ViewChild("productModal", { static: false }) productModal!: ElementRef;
   success: boolean = false;
   error: boolean = false;
-
+  selectedImage: File | null = null;
   successDelete: boolean = false;
   errorDelete: boolean = false;
   messageDelete: string = "";
@@ -28,11 +28,14 @@ export class MesProductsComponent implements OnInit {
   productMaker = new FormGroup({
     nom: new FormControl("", [Validators.required]),
     prixUnitaire: new FormControl("", [Validators.required]),
+    specialPrice: new FormControl("", [Validators.required]),
     quantite: new FormControl("", [Validators.required]),
     designation: new FormControl("", [Validators.required]),
     dateExp: new FormControl("", [Validators.required]),
     categorie: new FormControl("", [Validators.required]),
+    file: new FormControl<File | null>(null, [Validators.required]),
   });
+  fichier: File;
 
   formMaker: FormMaker[] = [
     {
@@ -52,6 +55,12 @@ export class MesProductsComponent implements OnInit {
       key: "prixUnitaire",
       type: "number",
       control: this.productMaker.get("prixUnitaire") as FormControl,
+    },
+    {
+      name: "Prix Special",
+      key: "specialPrice",
+      type: "number",
+      control: this.productMaker.get("specialPrice") as FormControl,
     },
     {
       name: "Quantite",
@@ -119,7 +128,11 @@ export class MesProductsComponent implements OnInit {
     private authService: AuthService,
     private productService: ProductService,
     private router: Router
-  ) {}
+  ) {
+    this.fichier = new File(["contenu du fichier"], "nom_du_fichier.txt", {
+      type: "text/plain",
+    });
+  }
 
   ngOnInit(): void {
     this.getProducts();
@@ -129,26 +142,52 @@ export class MesProductsComponent implements OnInit {
     this.success = false;
     this.error = false;
     const formData = this.productMaker.value;
+
+    const formData2 = new FormData();
+    if (formData.nom) formData2.append("nom", formData.nom);
+    if (formData.prixUnitaire) formData2.append("prix", formData.prixUnitaire);
+
+    if (formData.specialPrice)
+      formData2.append("prixspecial", formData.specialPrice);
+    if (formData.quantite) formData2.append("quantite", formData.quantite);
+    if (formData.designation)
+      formData2.append("designation", formData.designation);
+    if (formData.categorie)
+      formData2.append("categorie", formData.categorie);
+    if (formData.dateExp) formData2.append("dateExp", formData.dateExp);
+    if (formData.file) {
+      formData2.append("file", this.fichier);
+    }
+
+    formData2.forEach((value, key) => {
+      console.log(key, value);
+    });
+
     const data = {
       nom: formData.nom,
       prixUnitaire: formData.prixUnitaire,
+      specialPrice: formData.specialPrice,
       quantite: formData.quantite,
       designation: formData.designation,
       dateExp: formData.dateExp,
       categorie: formData.categorie,
+      file: this.fichier,
     };
 
-    this.productService.postProducts(data).subscribe({
-      next: (res) => {
+    this.productService.postProducts(formData2).subscribe({
+      next: (res: any) => {
         this.success = true;
         this.message = "Le produit a été ajouté avec succès.";
-        this.productMaker.reset();
-        // window.location.reload();
+        // this.productMaker.reset();
+        console.log(res);
+
         this.ngOnInit();
+        alert(res.text);
       },
       error: (res) => {
         this.error = true;
         this.message = "Une erreur s'est produite lors de l'ajout du produit.";
+        console.log(res);
       },
     });
   }
@@ -176,6 +215,28 @@ export class MesProductsComponent implements OnInit {
     }
     return [];
   }
+
+  imageBase64: string | ArrayBuffer | null = null;
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    this.fichier = file;
+    console.log(this.fichier);
+    if (file) {
+      this.productMaker.patchValue({
+        file: file, // Met à jour la valeur du champ file dans le formulaire
+      });
+      // this.fichier = file;
+    }
+    const reader = new FileReader();
+
+    reader.onload = (e: any) => {
+      this.imageBase64 = e.target.result;
+    };
+
+    reader.readAsDataURL(file);
+  }
+
   // supprimer(b: any) {
   //   const confirmation = window.confirm(
   //     "Voulez vous vraiment supprimer ce produit ?"
